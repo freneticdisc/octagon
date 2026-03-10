@@ -1,4 +1,4 @@
-# Octagon
+# 💬 Octagon
 
 > A multi-agent technical debate and eviction engine. LLMs argue, critique, and refine until consensus is reached.
 
@@ -7,7 +7,7 @@ Underperformers get evicted. The winner is a consensus design written to `octago
 
 ---
 
-## Quickstart
+## 🚀 Quickstart
 
 ```bash
 # Copy and fill in your API keys
@@ -26,25 +26,25 @@ uv run octagon < requirements.md
 uvx octagon "..."
 ```
 
-## Documentation
+## 📚 Documentation
 
-| Doc                                  | Purpose                                        |
-|--------------------------------------|------------------------------------------------|
-| [`docs/DESIGN.md`](docs/DESIGN.md)   | Architecture, graph, schemas, eviction logic   |
-| [`docs/RUNBOOK.md`](docs/RUNBOOK.md) | Auth, env vars, build, deploy, troubleshooting |
-| [`docs/decisions/`](docs/decisions/) | Architecture Decision Records (ADRs)           |
+| Doc                                  | Purpose                                           |
+|--------------------------------------|---------------------------------------------------|
+| [`docs/DESIGN.md`](docs/DESIGN.md)   | 🧠 Architecture, graph, schemas, eviction logic   |
+| [`docs/RUNBOOK.md`](docs/RUNBOOK.md) | 🔐 Auth, env vars, build, deploy, troubleshooting |
+| [`docs/decisions/`](docs/decisions/) | 🧾 Architecture Decision Records (ADRs)           |
 
-## Configuration
+## ⚙️ Configuration
 
-Edit [`config.yaml`](config.yaml) to configure participants, models, personas, and session limits. See [
-`docs/RUNBOOK.md`](docs/RUNBOOK.md) for provider authentication.
+Edit [`config.yaml`](config.yaml) to configure participants, models, personas, and session limits. See
+[`docs/RUNBOOK.md`](docs/RUNBOOK.md) for provider authentication.
 
-## Output Files
+## 📄 Output Files
 
-| File                | Written when                                              |
-|---------------------|-----------------------------------------------------------|
-| `octagon_result.md` | Consensus reached or max rounds hit                       |
-| `state_dump.md`     | Unexpected exit, manual interrupt, or human input timeout |
+| File                | Written when                                                 |
+|---------------------|--------------------------------------------------------------|
+| `octagon_result.md` | ✅ Consensus reached or max rounds hit                        |
+| `state_dump.md`     | 🛟 Unexpected exit, manual interrupt, or human input timeout |
 
 ---
 
