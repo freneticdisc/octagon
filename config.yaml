@@ -1,0 +1,88 @@
+global:
+  max_rounds: 10
+  max_session_cost_usd: 2.00
+  max_human_attempts: 3
+  deviation_threshold: 0.4      # evict if similarity to requirement drops below this
+  repetition_threshold: 0.9     # evict if similarity to own last 2 responses exceeds this
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Participants — uncomment the providers you want to use.
+# Auth is configured in .env — never put credentials here.
+# ─────────────────────────────────────────────────────────────────────────────
+
+participants:
+
+  # ── OpenAI ─────────────────────────────────────────────────────────────────
+  - name: "Performance Engineer"
+    model_name: "gpt-4o"
+    provider: "openai"
+    persona_prompt: |
+      You are a performance-obsessed senior engineer. You evaluate every design
+      decision through the lens of latency, throughput, and scalability. Push
+      back on anything that introduces unnecessary overhead. Be concise and specific.
+    token_limit: 8000
+
+  # ── Anthropic ──────────────────────────────────────────────────────────────
+  - name: "Security Architect"
+    model_name: "claude-opus-4-20250514"
+    provider: "anthropic"
+    persona_prompt: |
+      You are a security-first architect. Identify threat vectors, challenge
+      trust boundary assumptions, and ensure compliance. Reference specific
+      attack patterns where relevant.
+    token_limit: 8000
+
+  # ── Ollama (local) ─────────────────────────────────────────────────────────
+  # - name: "Local Skeptic"
+  #   model_name: "ollama/llama3"
+  #   provider: "ollama"
+  #   persona_prompt: |
+  #     You are a pragmatic skeptic. Challenge over-engineering and advocate for
+  #     the simplest solution that meets requirements.
+  #   token_limit: 6000
+
+  # ── Microsoft Azure OpenAI ─────────────────────────────────────────────────
+  # model_name format: azure/<your-deployment-name>
+  # The deployment name is set when you deploy a model in Azure AI Studio.
+  # - name: "Azure Generalist"
+  #   model_name: "azure/my-gpt4o-deployment"
+  #   provider: "azure"
+  #   persona_prompt: |
+  #     You are a balanced generalist. Synthesise the strongest points from all
+  #     participants and identify gaps in the proposed design.
+  #   token_limit: 8000
+
+  # ── AWS Bedrock ────────────────────────────────────────────────────────────
+  # model_name format: bedrock/<model-id>
+  # Enable the model in AWS Console → Bedrock → Model access before use.
+  # - name: "AWS Pragmatist"
+  #   model_name: "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0"
+  #   provider: "bedrock"
+  #   persona_prompt: |
+  #     You are a cloud-native pragmatist focused on operational simplicity,
+  #     managed services, and AWS ecosystem alignment.
+  #   token_limit: 8000
+
+  # ── Google Vertex AI ───────────────────────────────────────────────────────
+  # model_name format: vertex_ai/<model-id>
+  # Requires Vertex AI API enabled in GCP and VERTEXAI_PROJECT / VERTEXAI_LOCATION set.
+  # - name: "Google Strategist"
+  #   model_name: "vertex_ai/gemini-1.5-pro"
+  #   provider: "vertex_ai"
+  #   persona_prompt: |
+  #     You are a long-horizon strategist. Evaluate designs for maintainability,
+  #     extensibility, and alignment with industry trends over a 3–5 year horizon.
+  #   token_limit: 8000
+
+  # ── Oracle OCI Generative AI ───────────────────────────────────────────────
+  # model_name format: oci/<model-id>
+  # Available models: meta.llama-3.3-70b-instruct, xai.grok-4,
+  #                   cohere.command-a-03-2025 (chat), cohere.embed-* (embeddings)
+  # Requires pip install oci and all OCI_* env vars set.
+  # - name: "OCI Analyst"
+  #   model_name: "oci/meta.llama-3.3-70b-instruct"
+  #   provider: "oci"
+  #   persona_prompt: |
+  #     You are a rigorous systems analyst. Decompose proposals into components,
+  #     identify dependencies, and flag integration risks.
+  #   token_limit: 6000
