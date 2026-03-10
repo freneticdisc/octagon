@@ -7,13 +7,16 @@
 
 ## Context
 
-Octagon requires a cyclic debate loop with conditional branching (continue, evict, pause for human, terminate). The loop must be interruptible mid-execution for human input and must persist state across node transitions.
+Octagon requires a cyclic debate loop with conditional branching (continue, evict, pause for human, terminate). The loop
+must be interruptible mid-execution for human input and must persist state across node transitions.
 
 Options considered:
 
-- **Plain `asyncio` loop** — simple, but no built-in state management, no interrupt mechanism, difficult to add new branches without restructuring
+- **Plain `asyncio` loop** — simple, but no built-in state management, no interrupt mechanism, difficult to add new
+  branches without restructuring
 - **Celery** — designed for distributed task queues, not stateful sequential graphs; significant operational overhead
-- **LangGraph `StateGraph`** — purpose-built for cyclic, stateful LLM workflows; native `interrupt` for human-in-the-loop; explicit edge routing
+- **LangGraph `StateGraph`** — purpose-built for cyclic, stateful LLM workflows; native `interrupt` for
+  human-in-the-loop; explicit edge routing
 
 ## Decision
 

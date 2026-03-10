@@ -7,9 +7,12 @@ Version 1.0 · Python 3.12+ · LangGraph + LiteLLM
 
 ## 1. Purpose
 
-Octagon orchestrates a structured debate between multiple LLM participants managed by a Moderator. Given a technical requirement — an architecture decision, API design, code structure — agents argue, critique, and refine each other's proposals across multiple rounds until unanimous consensus is reached or session constraints are exhausted.
+Octagon orchestrates a structured debate between multiple LLM participants managed by a Moderator. Given a technical
+requirement — an architecture decision, API design, code structure — agents argue, critique, and refine each other's
+proposals across multiple rounds until unanimous consensus is reached or session constraints are exhausted.
 
-The final output is `octagon_result.md`, a single file containing the agreed-upon design or the best available state when limits were hit.
+The final output is `octagon_result.md`, a single file containing the agreed-upon design or the best available state
+when limits were hit.
 
 ---
 
@@ -75,34 +78,34 @@ octagon/
 
 The single shared object threaded through every node in the `StateGraph`.
 
-| Field | Type | Description |
-|---|---|---|
-| `messages` | `list[Message]` | Full debate history in order |
-| `active_participants` | `list[Participant]` | Currently live agents |
-| `evicted_participants` | `list[EvictionRecord]` | Who was removed, why, and when |
-| `total_session_cost` | `float` | Cumulative USD spend |
-| `current_round` | `int` | 1-indexed round counter |
-| `awaiting_human` | `bool` | True when graph is paused for input |
-| `human_attempts` | `int` | Number of human input attempts so far |
+| Field                  | Type                   | Description                           |
+|------------------------|------------------------|---------------------------------------|
+| `messages`             | `list[Message]`        | Full debate history in order          |
+| `active_participants`  | `list[Participant]`    | Currently live agents                 |
+| `evicted_participants` | `list[EvictionRecord]` | Who was removed, why, and when        |
+| `total_session_cost`   | `float`                | Cumulative USD spend                  |
+| `current_round`        | `int`                  | 1-indexed round counter               |
+| `awaiting_human`       | `bool`                 | True when graph is paused for input   |
+| `human_attempts`       | `int`                  | Number of human input attempts so far |
 
 ### `ParticipantConfig` (from `config.yaml`)
 
-| Field | Type | Description |
-|---|---|---|
-| `name` | `str` | Display name shown in console |
-| `model_name` | `str` | LiteLLM model string (e.g. `gpt-4o`, `ollama/llama3`) |
-| `provider` | `str` | `openai` / `anthropic` / `ollama` |
-| `persona_prompt` | `str` | System prompt defining this agent's role |
-| `token_limit` | `int` | Cumulative token ceiling before eviction |
+| Field            | Type  | Description                                           |
+|------------------|-------|-------------------------------------------------------|
+| `name`           | `str` | Display name shown in console                         |
+| `model_name`     | `str` | LiteLLM model string (e.g. `gpt-4o`, `ollama/llama3`) |
+| `provider`       | `str` | `openai` / `anthropic` / `ollama`                     |
+| `persona_prompt` | `str` | System prompt defining this agent's role              |
+| `token_limit`    | `int` | Cumulative token ceiling before eviction              |
 
 ### `EvictionRecord`
 
-| Field | Type | Description |
-|---|---|---|
-| `participant_name` | `str` | Who was evicted |
-| `reason` | `str` | `deviation` / `repetition` / `token_limit` |
-| `score` | `float` | The exact value that triggered the threshold |
-| `round` | `int` | Round number when eviction occurred |
+| Field              | Type    | Description                                  |
+|--------------------|---------|----------------------------------------------|
+| `participant_name` | `str`   | Who was evicted                              |
+| `reason`           | `str`   | `deviation` / `repetition` / `token_limit`   |
+| `score`            | `float` | The exact value that triggered the threshold |
+| `round`            | `int`   | Round number when eviction occurred          |
 
 ---
 
@@ -144,13 +147,13 @@ The single shared object threaded through every node in the `StateGraph`.
 
 ### Node Responsibilities
 
-| Node | File | Responsibility |
-|---|---|---|
-| `broadcast_node` | `graph/nodes.py` | Builds a context packet per participant: moderator summary + all peer viewpoints from the previous round |
-| `participant_node` | `graph/nodes.py` | Async LiteLLM call per active agent; appends response to `messages`; tracks cumulative token count |
-| `moderator_node` | `graph/nodes.py` | Evaluates all responses via eviction scoring; checks consensus; checks cost budget; determines next edge |
-| `evict_node` | `graph/nodes.py` | Removes participant from `active_participants`; appends `EvictionRecord`; logs name + reason + score to Rich console |
-| `human_input_node` | `graph/nodes.py` | Pauses graph via LangGraph `interrupt`; prints missing-info request; reads stdin; resumes or triggers state dump |
+| Node               | File             | Responsibility                                                                                                       |
+|--------------------|------------------|----------------------------------------------------------------------------------------------------------------------|
+| `broadcast_node`   | `graph/nodes.py` | Builds a context packet per participant: moderator summary + all peer viewpoints from the previous round             |
+| `participant_node` | `graph/nodes.py` | Async LiteLLM call per active agent; appends response to `messages`; tracks cumulative token count                   |
+| `moderator_node`   | `graph/nodes.py` | Evaluates all responses via eviction scoring; checks consensus; checks cost budget; determines next edge             |
+| `evict_node`       | `graph/nodes.py` | Removes participant from `active_participants`; appends `EvictionRecord`; logs name + reason + score to Rich console |
+| `human_input_node` | `graph/nodes.py` | Pauses graph via LangGraph `interrupt`; prints missing-info request; reads stdin; resumes or triggers state dump     |
 
 ### Edge Routing (`graph/edges.py`)
 
@@ -167,13 +170,14 @@ After `moderator_node`, a conditional edge routes to one of:
 
 All similarity scoring uses `litellm.embedding` with cosine similarity.
 
-| Trigger | Comparison | Threshold | Action |
-|---|---|---|---|
-| **Topic deviation** | Response vs. original requirement embedding | similarity < `deviation_threshold` (0.4) | Evict |
-| **Repetition** | Response vs. participant's last 2 responses | similarity > `repetition_threshold` (0.9) | Evict |
-| **Token overrun** | Cumulative tokens vs. `token_limit` per participant | exceeded | Evict |
+| Trigger             | Comparison                                          | Threshold                                 | Action |
+|---------------------|-----------------------------------------------------|-------------------------------------------|--------|
+| **Topic deviation** | Response vs. original requirement embedding         | similarity < `deviation_threshold` (0.4)  | Evict  |
+| **Repetition**      | Response vs. participant's last 2 responses         | similarity > `repetition_threshold` (0.9) | Evict  |
+| **Token overrun**   | Cumulative tokens vs. `token_limit` per participant | exceeded                                  | Evict  |
 
 **Moderator transparency rule:** On every eviction the console must display:
+
 - Participant name
 - Violation type
 - Exact score vs. threshold
@@ -209,32 +213,33 @@ Triggered when the Moderator detects it cannot proceed without more information.
 
 Built with `rich.console.Console` and `rich.live.Live` to prevent flicker.
 
-| Element | Rendering |
-|---|---|
-| **Session dashboard** | Persistent top bar: `Round N/10 · $0.43 spent · 3 agents active` |
-| **Participant responses** | Markdown blocks inside a Panel, agent name as title |
-| **Eviction events** | Yellow bordered panel: name, reason, score |
-| **Human input requests** | Red bordered panel with specific missing-info text |
-| **Consensus reached** | Green bordered panel with summary |
+| Element                   | Rendering                                                        |
+|---------------------------|------------------------------------------------------------------|
+| **Session dashboard**     | Persistent top bar: `Round N/10 · $0.43 spent · 3 agents active` |
+| **Participant responses** | Markdown blocks inside a Panel, agent name as title              |
+| **Eviction events**       | Yellow bordered panel: name, reason, score                       |
+| **Human input requests**  | Red bordered panel with specific missing-info text               |
+| **Consensus reached**     | Green bordered panel with summary                                |
 
 ---
 
 ## 9. Termination & Output Files
 
-| Condition | Output file | Contents |
-|---|---|---|
-| Unanimous agreement | `octagon_result.md` | Full consensus design |
-| `max_rounds` reached | `octagon_result.md` | Best available state + note |
-| `max_session_cost_usd` exceeded | `octagon_result.md` | Partial result + cost summary |
-| Human input timeout | `state_dump.md` | Full state + message history |
-| Unexpected exception | `state_dump.md` | Full state + traceback |
-| Manual `Ctrl+C` | `state_dump.md` | Full state at time of interrupt |
+| Condition                       | Output file         | Contents                        |
+|---------------------------------|---------------------|---------------------------------|
+| Unanimous agreement             | `octagon_result.md` | Full consensus design           |
+| `max_rounds` reached            | `octagon_result.md` | Best available state + note     |
+| `max_session_cost_usd` exceeded | `octagon_result.md` | Partial result + cost summary   |
+| Human input timeout             | `state_dump.md`     | Full state + message history    |
+| Unexpected exception            | `state_dump.md`     | Full state + traceback          |
+| Manual `Ctrl+C`                 | `state_dump.md`     | Full state at time of interrupt |
 
 ---
 
 ## 10. Async Model
 
-All LLM I/O is `async`. Participant nodes run concurrently per round using `asyncio.gather`. The graph itself is invoked with `asyncio.run(graph.ainvoke(...))`.
+All LLM I/O is `async`. Participant nodes run concurrently per round using `asyncio.gather`. The graph itself is invoked
+with `asyncio.run(graph.ainvoke(...))`.
 
 ```python
 # Concurrent participant calls within one round
