@@ -29,10 +29,6 @@ octagon/
 │       ├── 002-litellm-abstraction.md
 │       └── 003-eviction-scoring.md
 │
-├── .context/                      # AI agent instruction files
-│   ├── CLAUDE.md                  # Project context
-│   └── AGENTS.md                  # Coding rules and logic specs
-│
 ├── octagon/                       # Application source
 │   ├── __init__.py
 │   ├── main.py                    # CLI entry point
@@ -63,11 +59,13 @@ octagon/
 │   ├── test_state.py
 │   └── test_graph.py
 │
-├── config.yaml                    # Runtime config (operators edit this)
-├── .env.example                   # Env var template (committed)
 ├── .env                           # Actual secrets (gitignored)
-├── pyproject.toml
-└── README.md
+├── .env.example                   # Env var template (committed)
+├── AGENTS.md                      # Coding rules and logic specs
+├── CLAUDE.md                      # Project context
+├── README.md
+├── config.yaml                    # Runtime config (operators edit this)
+└── pyproject.toml
 ```
 
 ---
