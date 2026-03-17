@@ -1,7 +1,7 @@
 # AI Model Comparison — March 2026
 
 **Generated:** March 17, 2026
-**Disclaimer:** This document was generated using AI (Claude Sonnet 4.6). Model specs, pricing, and scores may change.
+**Disclaimer:** This document was generated using AI. Model specs, pricing, and scores may change.
 Always verify with official provider documentation before making production decisions.
 
 ---
