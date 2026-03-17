@@ -202,15 +202,15 @@ this is needed.
 
 ## 4. Provider Summary Table
 
-| Provider         | `provider` value | Key env vars                                                                                     | Model prefix         | Extra dep                     |
-|------------------|------------------|--------------------------------------------------------------------------------------------------|----------------------|-------------------------------|
-| OpenAI           | `openai`         | `OPENAI_API_KEY`                                                                                 | `gpt-4o`, `o3-mini`  | —                             |
-| Anthropic        | `anthropic`      | `ANTHROPIC_API_KEY`                                                                              | `claude-opus-4-...`  | —                             |
-| Ollama           | `ollama`         | `OLLAMA_BASE_URL`                                                                                | `ollama/<model>`     | Ollama daemon                 |
-| Azure OpenAI     | `azure`          | `AZURE_API_KEY`, `AZURE_API_BASE`, `AZURE_API_VERSION`                                           | `azure/<deployment>` | —                             |
-| AWS Bedrock      | `bedrock`        | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION_NAME`                                  | `bedrock/<model-id>` | —                             |
-| Google Vertex AI | `vertex_ai`      | `VERTEXAI_PROJECT`, `VERTEXAI_LOCATION`                                                          | `vertex_ai/<model>`  | gcloud CLI or service account |
-| Oracle OCI       | `oci`            | `OCI_USER`, `OCI_FINGERPRINT`, `OCI_TENANCY`, `OCI_REGION`, `OCI_KEY_FILE`, `OCI_COMPARTMENT_ID` | `oci/<model-id>`     | `uv add oci`                  |
+| Provider         | `provider` value | Key env vars                                                    | Model prefix         | Extra dep                     |
+|------------------|------------------|-----------------------------------------------------------------|----------------------|-------------------------------|
+| OpenAI           | `openai`         | `OPENAI_API_KEY`                                                | `gpt-4o`, `o3-mini`  | —                             |
+| Anthropic        | `anthropic`      | `ANTHROPIC_API_KEY`                                             | `claude-opus-4-...`  | —                             |
+| Ollama           | `ollama`         | `OLLAMA_BASE_URL`                                               | `ollama/<model>`     | Ollama daemon                 |
+| Azure OpenAI     | `azure`          | `AZURE_API_KEY`, `AZURE_API_BASE`, `AZURE_API_VERSION`          | `azure/<deployment>` | —                             |
+| AWS Bedrock      | `bedrock`        | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION_NAME` | `bedrock/<model-id>` | —                             |
+| Google Vertex AI | `vertex_ai`      | `VERTEXAI_PROJECT`, `VERTEXAI_LOCATION`                         | `vertex_ai/<model>`  | gcloud CLI or service account |
+| Oracle OCA       | `oca`            | `OCA_API_KEY`, `OCA_BASE_URL`                                   | `oca/<model-id>`     | —                             |
 
 ---
 
